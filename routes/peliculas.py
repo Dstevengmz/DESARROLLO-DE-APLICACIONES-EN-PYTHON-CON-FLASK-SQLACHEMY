@@ -94,4 +94,25 @@ def updatePelicula():
     return {"estado": estado, "mensaje": mensaje}
 
 
+@app.route("/pelicula/", methods=['DELETE'])
+def deletepelicula():
+    try:
+        mensaje = None
+        estado = False
+        if request.method == 'DELETE':
+            datos = request.get_json()
+            peliculaEliminar = Pelicula.query.get(datos['id'])
+            if peliculaEliminar:
+                db.session.delete(peliculaEliminar)
+                db.session.commit()
+                estado = True
+                mensaje = "Pelicula eliminado correctamente"
+            else:
+                mensaje = "pelicula no encontrado"
+        else:
+            mensaje = "Tarea no permitida"
+    except exc.SQLAlchemyError as error:
+        db.session.rollback()
+        mensaje = str(error)
+    return {"estado": estado, "mensaje": mensaje}
 

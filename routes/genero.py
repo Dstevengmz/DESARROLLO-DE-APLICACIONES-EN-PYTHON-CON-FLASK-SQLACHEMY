@@ -44,3 +44,25 @@ def addGenero():
     except exc.SQLAlchemyError as error:
         db.session.rollback()
     return {"estado":estado,"mensaje":mensaje}
+
+
+@app.route("/genero/", methods=['PUT'])
+def updateGenero():
+    try:
+        mensaje = None
+        estado = False
+        if request.method == 'PUT':
+            datos = request.get_json()
+            genero = Genero.query.get(datos['id'])
+            if genero:
+                genero.genNombre = datos['genero']
+                db.session.commit()
+                estado = True
+                mensaje = "Género actualizado correctamente"
+            else:
+                mensaje = "Género no encontrado"
+        else:
+            mensaje = "Tarea no permitida"
+    except exc.SQLAlchemyError as error:
+        db.session.rollback()
+    return {"estado": estado, "mensaje": mensaje}

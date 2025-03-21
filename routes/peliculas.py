@@ -64,3 +64,34 @@ def addPelicula():
     except exc.SQLAlchemyError as error:
         db.session.rollback()
     return {"estado":estado,"mensaje":mensaje}
+
+
+@app.route("/pelicula/", methods=['PUT'])
+def updatePelicula():
+    try:
+        mensaje = None
+        estado = False
+        if request.method == 'PUT':
+            datos = request.get_json()
+            
+            pelicula = Pelicula.query.get(datos['id'])
+            
+            if pelicula:
+                # pelicula.pelCodigo = datos['codigo'],
+                # pelicula.pelTitulo = datos['titulo'],
+                # pelicula.pelProtagonista = datos['protagonista'],
+                pelicula.pelDuracion = datos['duracion']
+                # pelicula.pelResumen = datos['resumen'],
+                # pelicula.pelFoto = datos['foto'],
+                # genero = Genero.query.get(int(datos['genero']))
+                # pelicula.genero = genero
+                db.session.commit()
+                estado = True
+                mensaje = "Película actualizada correctamente"
+            else:
+                mensaje = "Película no encontrada"
+        else:
+            mensaje = "Tarea no permitida"
+    except exc.SQLAlchemyError as error:
+        db.session.rollback()
+    return {"estado": estado, "mensaje": mensaje}

@@ -1,0 +1,7 @@
+### listar peliculas
+
+GET http://127.0.0.1:5555/pelicula/
+
+### listar los generos
+
+http://127.0.0.1:5555/genero/

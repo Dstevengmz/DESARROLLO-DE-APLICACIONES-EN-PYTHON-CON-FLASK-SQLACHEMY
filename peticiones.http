@@ -1,7 +1,22 @@
 ### listar peliculas
 
-GET http://127.0.0.1:5555/pelicula/
+POST http://127.0.0.1:5555/pelicula/
+Content-Type: application/json
 
+{
+    "codigo": 321,
+    "titulo": "la",
+    "protagonista": "Leonardo",
+    "duracion": 432,
+    "resumen": "Un experto secretos",
+    "foto": "00.jpg",
+    "genero": 2
+}
 ### listar los generos
 
-http://127.0.0.1:5555/genero/
+POST http://127.0.0.1:5555/genero/
+Content-Type: application/json
+
+{
+    "genero":"Infantil"
+}

@@ -5,7 +5,6 @@ from models.pelicula import *
 from models.genero import *
 from sqlalchemy import exc
 
-
 @app.route("/pelicula/",methods=['GET'])
 def listarPeliculas():
     try:
@@ -35,8 +34,6 @@ def listarPeliculas():
         mensaje=str(error)
     
     return {"mensaje":mensaje,"Peliculas":listarPeliculas}
-
-
 
 @app.route("/pelicula/",methods=['POST'])
 def addPelicula():
@@ -95,3 +92,6 @@ def updatePelicula():
     except exc.SQLAlchemyError as error:
         db.session.rollback()
     return {"estado": estado, "mensaje": mensaje}
+
+
+

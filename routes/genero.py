@@ -24,8 +24,6 @@ def listarGeneros():
     return {"mensaje":mensaje,"generos":listarGeneros}
 
 
-
-
 @app.route("/genero/",methods=['POST'])
 def addGenero():
     try:
@@ -65,4 +63,27 @@ def updateGenero():
             mensaje = "Tarea no permitida"
     except exc.SQLAlchemyError as error:
         db.session.rollback()
+    return {"estado": estado, "mensaje": mensaje}
+
+
+@app.route("/genero/", methods=['DELETE'])
+def deleteGenero():
+    try:
+        mensaje = None
+        estado = False
+        if request.method == 'DELETE':
+            datos = request.get_json()
+            generoEliminar = Genero.query.get(datos['id'])
+            if generoEliminar:
+                db.session.delete(generoEliminar)
+                db.session.commit()
+                estado = True
+                mensaje = "Género eliminado correctamente"
+            else:
+                mensaje = "Género no encontrado"
+        else:
+            mensaje = "Tarea no permitida"
+    except exc.SQLAlchemyError as error:
+        db.session.rollback()
+        mensaje = str(error)
     return {"estado": estado, "mensaje": mensaje}
